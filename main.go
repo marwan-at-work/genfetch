@@ -57,8 +57,12 @@ func main() {
 		rpcs = append(rpcs, method{rpc.Name, url})
 	}))
 
+	f, err := os.Create("client.js")
+	must(err)
+	defer f.Close()
+
 	t := template.Must(template.New("").Parse(tmpl))
-	err = t.Execute(os.Stdout, rpcs)
+	err = t.Execute(f, rpcs)
 	must(err)
 }
 
